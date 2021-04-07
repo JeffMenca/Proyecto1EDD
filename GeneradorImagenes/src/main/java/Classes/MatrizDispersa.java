@@ -11,14 +11,13 @@ import java.io.IOException;
 
 public class MatrizDispersa {
 
-    private int totalNodos;
+  
     public int totalFilas;
     public int totalColumnas;
     private NodoMatrizDispersa raiz;
     
     public MatrizDispersa() {
         raiz = new NodoMatrizDispersa(0,0,null);
-        totalNodos = totalFilas = totalColumnas = 0;
     }
     
     public NodoMatrizDispersa insertarFila(int fila) {
@@ -211,7 +210,6 @@ public class MatrizDispersa {
                 }
             }
         }
-    totalNodos++;
     }
     
     public void graficarMatriz() throws IOException{

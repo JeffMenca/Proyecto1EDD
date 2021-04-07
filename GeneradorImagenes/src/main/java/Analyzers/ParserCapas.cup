@@ -1,0 +1,63 @@
+/* Imports */
+package Analyzers;
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import java.util.List;
+import Objects.*;
+/* Codigo java del parser*/
+parser code {:
+
+    //Listas
+    //private ArrayList<Capa> capasList= new ArrayList<Capa>();
+	public ParserCapas(LexicoCapas lex) {
+		super(lex);
+	}
+	@Override
+        public void syntax_error(Symbol st) {
+            //Reporte el error
+        	Token token = (Token) st.value;
+            report_error("Error Sintactico con el  Token:"+ token.getLexeme()+" este no pertenece a la estructura - linea: "+token.getLine()+" - columna: "+token.getColumn() + "\n",null);
+        }
+    //@Override
+    
+        //Retorna list de Capas
+        //public ArrayList getCapasList(){ 
+	        //return capasList;
+	    //}
+        //Ingresa datos en array de capas
+        //public void addFormasList(Forma forma){
+            //try {
+                // formasList.add(forma);
+                //}
+            //catch(Exception e) {
+                //System.out.println("error encontrado: "+e);
+                //}
+	    //}
+:};
+
+/* Terminales */
+terminal Token ID,ENTERO,HEXADECIMAL,LLAVEA,LLAVEB,COMA,PUNTOCOMA;
+/* No Terminales */
+non terminal INICIO,CREARCAPA,SIGUIENTE,FINOINICIO;
+
+/* Gramatica : */
+start with INICIO;
+INICIO ::= CREARCAPA
+        | error{:System.out.println("Error en expresion");:}
+;   
+//Creacion de capa
+CREARCAPA ::= ID LLAVEA ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE 
+| ENTERO LLAVEA ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE 
+;   
+
+//Accion siguiente
+SIGUIENTE ::= ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE
+| LLAVEB FINOINICIO
+| error{:System.out.println("Error en expresion");:}
+;
+
+//Accion fin o reiniciar
+FINOINICIO ::= CREARCAPA
+| 
+;
+

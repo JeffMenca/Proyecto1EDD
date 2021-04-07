@@ -93,21 +93,21 @@ public class ArbolABBCapas {
         return null;
     }
 
-    private NodoABBCapas insertarAVL(NodoABBCapas nodo, NodoABBCapas nodoAux) {
+    private NodoABBCapas insertarABB(NodoABBCapas nodo, NodoABBCapas nodoAux) {
+        
         NodoABBCapas nodoPadre = nodoAux;
-
         if (nodo.getId().compareTo(nodoAux.getId()) < 0) {
 
             if (nodoAux.getLeft() == null) {
                 nodoAux.setLeft(nodo);
             } else {
-                nodoAux.setLeft(insertarAVL(nodo, nodoAux.getLeft()));
+                nodoAux.setLeft(insertarABB(nodo, nodoAux.getLeft()));
             }
         } else if (nodo.getId().compareTo(nodoAux.getId()) > 0) {
             if (nodoAux.getRight() == null) {
                 nodoAux.setRight(nodo);
             } else {
-                nodoAux.setRight(insertarAVL(nodo, nodoAux.getRight()));
+                nodoAux.setRight(insertarABB(nodo, nodoAux.getRight()));
             }
         } else {
             JOptionPane.showMessageDialog(null, "Ya existe una capa con ese nombre");
@@ -120,7 +120,7 @@ public class ArbolABBCapas {
         if (raiz == null) {
             raiz = nuevaCapa;
         } else {
-            raiz = insertarAVL(nuevaCapa, raiz);
+            raiz = insertarABB(nuevaCapa, raiz);
         }
         size++;
     }

@@ -1,37 +1,48 @@
 package Classes;
 
 // Clase principal
-import Forms.Menu;
-import Classes.*;
+import Forms.MenuForm;
 import Objects.Usuario;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import Classes.ArbolAVLUsuario;
+import javax.swing.JOptionPane;
 
 public class claseMain {
 
     public static ArbolAVLUsuario arbolAVL = new ArbolAVLUsuario();
     public static ArbolABBCapas arbolABB = new ArbolABBCapas();
+    public static ListaDobleImagenes listaImagenes = new ListaDobleImagenes();
 
     public static void main(String[] args) {
+        //Menu y systems
         System.out.println("Hola mundo");
-        Menu menu = new Menu();
-        //menu.setVisible(true);
+        MenuForm menu = new MenuForm();
+        //Creacion de usuarios
         Usuario user1 = new Usuario("a");
         Usuario user3 = new Usuario("c");
+        //Creacion de capas
         MatrizDispersa matrizDispersa = new MatrizDispersa();
+        MatrizDispersa matrizDispersa2 = new MatrizDispersa();
         matrizDispersa.insertar(1, 1, "#000000");
         matrizDispersa.insertar(5, 5, "#000000");
+        matrizDispersa2.insertar(2, 2, "#000000");
+        matrizDispersa2.insertar(4, 4, "#000000");
         arbolABB.insertar("1", matrizDispersa);
-        arbolABB.insertar("1", matrizDispersa);
-        arbolABB.insertar("3", matrizDispersa);
-        arbolABB.inOrden();
-        arbolABB.eliminar("1");
-        arbolABB.inOrden();
+        arbolABB.insertar("2", matrizDispersa2);
+        //Creacion de imagen
+        Imagen nuevaImagen = new Imagen("111");
+        nuevaImagen.insertarCapaCola("1");
+        nuevaImagen.insertarCapaCola("2");
         try {
-            matrizDispersa.graficarMatriz();
+            nuevaImagen.generarImagen();
         } catch (Exception e) {
         }
+        //Lista doble
+        listaImagenes.insertarImagen(nuevaImagen);
+        listaImagenes.ordenarLista();
+        //listaImagenes.mostrarDatos();
 
     }
 
@@ -44,15 +55,14 @@ public class claseMain {
             out.write(texto);
             out.close();
         } catch (IOException e) {
-            System.out.println("============== error escribiendo en archivo");
+            System.out.println("Error al generar imagen");
         } finally {
             try {
                 escritor.close();
             } catch (IOException ex) {
-                System.out.println("========no se pudo cerrar archivo");
+                System.out.println("Error al generar imagen");
             }
         }
-
     }
 
 }
