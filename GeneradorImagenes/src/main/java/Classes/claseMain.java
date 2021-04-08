@@ -25,12 +25,12 @@ public class claseMain {
         //Creacion de capas
         MatrizDispersa matrizDispersa = new MatrizDispersa();
         MatrizDispersa matrizDispersa2 = new MatrizDispersa();
-        matrizDispersa.insertar(1, 1, "#000000");
-        matrizDispersa.insertar(5, 5, "#000000");
-        matrizDispersa2.insertar(2, 2, "#000000");
-        matrizDispersa2.insertar(4, 4, "#000000");
-        arbolABB.insertar("1", matrizDispersa);
-        arbolABB.insertar("2", matrizDispersa2);
+        //matrizDispersa.insertar(2, 2, "#000000");
+        //matrizDispersa.insertar(3, 3, "#000000");
+        //matrizDispersa2.insertar(4, 4, "#000000");
+        //matrizDispersa2.insertar(4, 7, "#000000");
+        //arbolABB.insertar("1", matrizDispersa);
+        //arbolABB.insertar("2", matrizDispersa2);
         //Creacion de imagen
         Imagen nuevaImagen = new Imagen("111");
         nuevaImagen.insertarCapaCola("1");

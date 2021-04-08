@@ -7,6 +7,10 @@ package Forms;
 
 import Analyzers.LexicoCapas;
 import Analyzers.ParserCapas;
+import Classes.Imagen;
+import Classes.MatrizDispersa;
+import Classes.NodoABBCapas;
+import Classes.claseMain;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,6 +18,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -414,9 +419,11 @@ public class CargarDatos extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String aux = "";
-        textoCapas="";
+        textoCapas = "";
         try {
-            JFileChooser file = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(".cap files", "cap");
+            JFileChooser file = new JFileChooser("C:\\Users\\Jeffrey\\Desktop");
+            file.setFileFilter(filter);
             file.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             file.showOpenDialog(this);
             File archivoSeleccionado = file.getSelectedFile();
@@ -428,7 +435,7 @@ public class CargarDatos extends javax.swing.JFrame {
                     }
                 }
             }
-            jLabel3.setText("Selecciono el archivo: "+file.getName(file.getSelectedFile()));
+            jLabel3.setText("Selecciono el archivo: " + file.getName(file.getSelectedFile()));
             jTextArea2.setText("Se cargo el archivo correctamente, presione generar");
         } catch (IOException ex) {
             jTextArea2.setText("No se logro cargar el archivo");
@@ -441,9 +448,13 @@ public class CargarDatos extends javax.swing.JFrame {
         ParserCapas parser = new ParserCapas(lexico);
         try {
             parser.parse();
-
+            jTextArea2.setText("Se generaron las capas correctamente");
+            Imagen nuevaImagen = new Imagen("1");
+            nuevaImagen.insertarCapaCola("9");
+            nuevaImagen.insertarCapaCola("4");
+            nuevaImagen.generarImagen();
         } catch (Exception ex) {
-
+            jTextArea2.setText("Error al generar las capas");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

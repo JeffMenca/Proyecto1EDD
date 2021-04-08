@@ -9,6 +9,7 @@ import java_cup.runtime.*;
 import java.util.ArrayList;
 import java.util.List;
 import Objects.*;
+import Classes.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -123,6 +124,8 @@ public class ParserCapas extends java_cup.runtime.lr_parser {
 
     //Listas
     //private ArrayList<Capa> capasList= new ArrayList<Capa>();
+    MatrizDispersa capaGenerada = new MatrizDispersa();
+    String idActual="EE";
 	public ParserCapas(LexicoCapas lex) {
 		super(lex);
 	}
@@ -132,21 +135,10 @@ public class ParserCapas extends java_cup.runtime.lr_parser {
         	Token token = (Token) st.value;
             report_error("Error Sintactico con el  Token:"+ token.getLexeme()+" este no pertenece a la estructura - linea: "+token.getLine()+" - columna: "+token.getColumn() + "\n",null);
         }
-    //@Override
+    public void setIdActual(String id){
+        this.idActual=id;
+    }
     
-        //Retorna list de Capas
-        //public ArrayList getCapasList(){ 
-	        //return capasList;
-	    //}
-        //Ingresa datos en array de capas
-        //public void addFormasList(Forma forma){
-            //try {
-                // formasList.add(forma);
-                //}
-            //catch(Exception e) {
-                //System.out.println("error encontrado: "+e);
-                //}
-	    //}
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -209,7 +201,22 @@ class CUP$ParserCapas$actions {
           case 3: // CREARCAPA ::= ID LLAVEA ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-8)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-8)).right;
+		Token id = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-8)).value;
+		int xleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).left;
+		int xright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).right;
+		Token x = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).value;
+		int yleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).left;
+		int yright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).right;
+		Token y = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).value;
+		int colorleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).left;
+		int colorright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).right;
+		Token color = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).value;
+		setIdActual(id.getLexeme());
+   capaGenerada.insertar(Integer.parseInt(x.getLexeme()), Integer.parseInt(y.getLexeme()), color.getLexeme()); 
+   claseMain.arbolABB.insertar(idActual,capaGenerada);
+   capaGenerada = new MatrizDispersa();
               CUP$ParserCapas$result = parser.getSymbolFactory().newSymbol("CREARCAPA",1, ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-8)), ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.peek()), RESULT);
             }
           return CUP$ParserCapas$result;
@@ -218,7 +225,22 @@ class CUP$ParserCapas$actions {
           case 4: // CREARCAPA ::= ENTERO LLAVEA ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE 
             {
               Object RESULT =null;
-
+		int idleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-8)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-8)).right;
+		Token id = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-8)).value;
+		int xleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).left;
+		int xright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).right;
+		Token x = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).value;
+		int yleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).left;
+		int yright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).right;
+		Token y = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).value;
+		int colorleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).left;
+		int colorright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).right;
+		Token color = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).value;
+		setIdActual(id.getLexeme());
+   capaGenerada.insertar(Integer.parseInt(x.getLexeme()), Integer.parseInt(y.getLexeme()), color.getLexeme()); 
+   claseMain.arbolABB.insertar(idActual,capaGenerada);
+   capaGenerada = new MatrizDispersa();
               CUP$ParserCapas$result = parser.getSymbolFactory().newSymbol("CREARCAPA",1, ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-8)), ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.peek()), RESULT);
             }
           return CUP$ParserCapas$result;
@@ -227,7 +249,16 @@ class CUP$ParserCapas$actions {
           case 5: // SIGUIENTE ::= ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE 
             {
               Object RESULT =null;
-
+		int xleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).left;
+		int xright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).right;
+		Token x = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)).value;
+		int yleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).left;
+		int yright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).right;
+		Token y = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-4)).value;
+		int colorleft = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).left;
+		int colorright = ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).right;
+		Token color = (Token)((java_cup.runtime.Symbol) CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-2)).value;
+		capaGenerada.insertar(Integer.parseInt(x.getLexeme()), Integer.parseInt(y.getLexeme()), color.getLexeme()); 
               CUP$ParserCapas$result = parser.getSymbolFactory().newSymbol("SIGUIENTE",2, ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.elementAt(CUP$ParserCapas$top-6)), ((java_cup.runtime.Symbol)CUP$ParserCapas$stack.peek()), RESULT);
             }
           return CUP$ParserCapas$result;

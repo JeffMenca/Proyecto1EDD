@@ -20,6 +20,14 @@ public class MatrizDispersa {
         raiz = new NodoMatrizDispersa(0,0,null);
     }
     
+    boolean vacia() {
+        if (raiz == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public NodoMatrizDispersa insertarFila(int fila) {
         NodoMatrizDispersa cabezaNodoNodo = raiz.getFilaSiguiente();
         NodoMatrizDispersa nuevoNodoNodo = new NodoMatrizDispersa(0,fila,null);
@@ -92,7 +100,7 @@ public class MatrizDispersa {
     }
     
     
-    public NodoMatrizDispersa obtenerFila(int fila,boolean flag) {
+    public NodoMatrizDispersa obtenerFila(int fila,boolean auxiliar) {
         NodoMatrizDispersa aux = raiz.getFilaSiguiente();
         while(aux != null) {
             if(aux.getY() == fila){
@@ -100,12 +108,12 @@ public class MatrizDispersa {
             }
             aux = aux.getFilaSiguiente();
         }
-        if(flag)
+        if(auxiliar)
             return insertarFila(fila);
         return null;
     }
     
-    public NodoMatrizDispersa obtenerColumna(int columna,boolean flag) {
+    public NodoMatrizDispersa obtenerColumna(int columna,boolean auxiliar) {
         NodoMatrizDispersa aux = raiz.getColumnaSiguiente();
         while(aux != null) {
             if(aux.getX() == columna){
@@ -113,12 +121,12 @@ public class MatrizDispersa {
             }
             aux = aux.getColumnaSiguiente();
         }
-        if(flag)
+        if(auxiliar)
             return insertarColumna(columna);
         return null;
     }
     
-    public NodoMatrizDispersa triangular(int columna,int fila) {
+    public NodoMatrizDispersa graficarEnMatriz(int columna,int fila) {
         NodoMatrizDispersa nodoColumna = obtenerColumna(columna,false);
         if(nodoColumna != null){
             NodoMatrizDispersa aux = nodoColumna;
@@ -217,8 +225,8 @@ public class MatrizDispersa {
         for(int y = 1;y<=this.totalFilas;y++) {
             salida = salida + "<TR>  ";
             for(int x = 1;x<= this.totalColumnas;x++) {
-                if(triangular(x,y) != null) {
-                    salida = salida + "<TD BGCOLOR=\""+triangular(x,y).getColor()+"\"></TD>  ";
+                if(graficarEnMatriz(x,y) != null) {
+                    salida = salida + "<TD BGCOLOR=\""+graficarEnMatriz(x,y).getColor()+"\"></TD>  ";
                 } else {
                     salida = salida + "<TD BGCOLOR=\"#FFFFFF\"></TD>  ";
                 }

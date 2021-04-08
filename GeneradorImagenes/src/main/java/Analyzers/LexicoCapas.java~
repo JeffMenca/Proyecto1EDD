@@ -931,7 +931,7 @@ public class LexicoCapas implements java_cup.runtime.Scanner {
             // fall through
           case 15: break;
           case 6:
-            { return symbol(sym.ENTERO,yytext()); System.out.println("Funciono");
+            { return symbol(sym.ENTERO,yytext());
             }
             // fall through
           case 16: break;
@@ -951,7 +951,7 @@ public class LexicoCapas implements java_cup.runtime.Scanner {
             // fall through
           case 19: break;
           case 10:
-            { System.out.println("Encontro hexadecimal"); return symbol(sym.HEXADECIMAL,yytext());
+            { return symbol(sym.HEXADECIMAL,yytext());
             }
             // fall through
           case 20: break;

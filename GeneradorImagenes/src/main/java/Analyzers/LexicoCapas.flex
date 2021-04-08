@@ -24,7 +24,8 @@ import java.util.ArrayList;
 //Palabras reservadas y tokens validos
 ENTERO=([0-9]+)
 ID = [:jletterdigit:]+
-HEXADECIMAL= [#][[A-F]|[0-9]][[A-F]|[0-9]][[A-F]|[0-9]][[A-F]|[0-9]][[A-F]|[0-9]][[A-F]|[0-9]]
+HEXALETRA = [a-fA-F]
+HEXADECIMAL= [#][[{HEXALETRA}]|[0-9]][[{HEXALETRA}]|[0-9]][[{HEXALETRA}]|[0-9]][[{HEXALETRA}]|[0-9]][[{HEXALETRA}]|[0-9]][[{HEXALETRA}]|[0-9]]
 LLAVEA=("{")
 LLAVEB=("}")
 COMA=(",")
@@ -40,7 +41,7 @@ ESPACIO = {SEPARADOR} | [ \t\f]
 
 {SEPARADOR} {/*Ignora el separador*/}
 {ESPACIO} {/*Ignora el espacio*/}
-{ENTERO} { return symbol(sym.ENTERO,yytext()); System.out.println("Funciono"); }
+{ENTERO} { return symbol(sym.ENTERO,yytext());}
 {ID} { return symbol(sym.ID,yytext()); }
 {HEXADECIMAL} {return symbol(sym.HEXADECIMAL,yytext()); }
 {LLAVEA} {return symbol(sym.LLAVEA,yytext()); }

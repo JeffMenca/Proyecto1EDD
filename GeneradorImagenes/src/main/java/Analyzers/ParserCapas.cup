@@ -4,11 +4,14 @@ import java_cup.runtime.*;
 import java.util.ArrayList;
 import java.util.List;
 import Objects.*;
+import Classes.*;
 /* Codigo java del parser*/
 parser code {:
 
     //Listas
     //private ArrayList<Capa> capasList= new ArrayList<Capa>();
+    MatrizDispersa capaGenerada = new MatrizDispersa();
+    String idActual="EE";
 	public ParserCapas(LexicoCapas lex) {
 		super(lex);
 	}
@@ -18,21 +21,10 @@ parser code {:
         	Token token = (Token) st.value;
             report_error("Error Sintactico con el  Token:"+ token.getLexeme()+" este no pertenece a la estructura - linea: "+token.getLine()+" - columna: "+token.getColumn() + "\n",null);
         }
-    //@Override
+    public void setIdActual(String id){
+        this.idActual=id;
+    }
     
-        //Retorna list de Capas
-        //public ArrayList getCapasList(){ 
-	        //return capasList;
-	    //}
-        //Ingresa datos en array de capas
-        //public void addFormasList(Forma forma){
-            //try {
-                // formasList.add(forma);
-                //}
-            //catch(Exception e) {
-                //System.out.println("error encontrado: "+e);
-                //}
-	    //}
 :};
 
 /* Terminales */
@@ -46,12 +38,21 @@ INICIO ::= CREARCAPA
         | error{:System.out.println("Error en expresion");:}
 ;   
 //Creacion de capa
-CREARCAPA ::= ID LLAVEA ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE 
-| ENTERO LLAVEA ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE 
+CREARCAPA ::= ID:id LLAVEA ENTERO:x COMA ENTERO:y COMA HEXADECIMAL:color PUNTOCOMA SIGUIENTE 
+{:setIdActual(id.getLexeme());
+   capaGenerada.insertar(Integer.parseInt(x.getLexeme()), Integer.parseInt(y.getLexeme()), color.getLexeme()); 
+   claseMain.arbolABB.insertar(idActual,capaGenerada);
+   capaGenerada = new MatrizDispersa();:}
+| ENTERO:id LLAVEA ENTERO:x COMA ENTERO:y COMA HEXADECIMAL:color PUNTOCOMA SIGUIENTE 
+{:setIdActual(id.getLexeme());
+   capaGenerada.insertar(Integer.parseInt(x.getLexeme()), Integer.parseInt(y.getLexeme()), color.getLexeme()); 
+   claseMain.arbolABB.insertar(idActual,capaGenerada);
+   capaGenerada = new MatrizDispersa();:}
 ;   
 
 //Accion siguiente
-SIGUIENTE ::= ENTERO COMA ENTERO COMA HEXADECIMAL PUNTOCOMA SIGUIENTE
+SIGUIENTE ::= ENTERO:x COMA ENTERO:y COMA HEXADECIMAL:color PUNTOCOMA SIGUIENTE
+{:capaGenerada.insertar(Integer.parseInt(x.getLexeme()), Integer.parseInt(y.getLexeme()), color.getLexeme()); :}
 | LLAVEB FINOINICIO
 | error{:System.out.println("Error en expresion");:}
 ;

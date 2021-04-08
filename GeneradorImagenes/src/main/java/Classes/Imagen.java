@@ -47,9 +47,9 @@ public class Imagen {
             int columnas = capa.totalColumnas;
             for (int y = 1; y <= filas; y++) {
                 for (int x = 1; x <= columnas; x++) {
-                    NodoMatrizDispersa nodo = capa.triangular(x, y);
+                    NodoMatrizDispersa nodo = capa.graficarEnMatriz(x, y);
                     if (nodo != null) {
-                        imagenFinal.insertar(nodo.getX(), nodo.getY(), nodo.getColor());
+                        imagenFinal.insertar(nodo.getY(), nodo.getX(), nodo.getColor());
                     }
                 }
             }
