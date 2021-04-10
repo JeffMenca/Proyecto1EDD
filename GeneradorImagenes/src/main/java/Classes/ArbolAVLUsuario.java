@@ -18,7 +18,7 @@ public class ArbolAVLUsuario {
     }
 
     public void eliminar(Usuario user) {
-        NodoAVLUsuario nuevoUser = buscar(user);
+        NodoAVLUsuario nuevoUser = buscar(user.getUsuario());
         if (nuevoUser != null) {
             if (raiz == null) {
                 raiz = null;
@@ -98,8 +98,9 @@ public class ArbolAVLUsuario {
         return nodoActual;
     }
 
-    public NodoAVLUsuario buscar(Usuario username) {
-        return buscar(username, this.raiz);
+    public NodoAVLUsuario buscar(String username) {
+        Usuario user=new Usuario(username);
+        return buscar(user, this.raiz);
     }
 
     private NodoAVLUsuario buscar(Usuario username, NodoAVLUsuario raiz) {
@@ -128,7 +129,7 @@ public class ArbolAVLUsuario {
         }
         if (username.getUsuario().compareTo(raiz.getUsername().getUsuario()) == 0) {
             Usuario usuarioBuscar = new Usuario(nuevoUsuario);
-            NodoAVLUsuario nuevoNodo = buscar(usuarioBuscar);
+            NodoAVLUsuario nuevoNodo = buscar(usuarioBuscar.getUsuario());
             if (nuevoNodo == null) {
                 raiz.getUsername().setUsuario(nuevoUsuario);
                 return raiz;
@@ -241,6 +242,63 @@ public class ArbolAVLUsuario {
         size++;
         if (seCreo == 1) {
             JOptionPane.showMessageDialog(null, "El usuario se creo exitosamente");
+        }
+    }
+    
+    private NodoAVLUsuario insertarAVL2(NodoAVLUsuario nodo, NodoAVLUsuario nodoAux) {
+        NodoAVLUsuario nodoPadre = nodoAux;
+        seCreo = 1;
+
+        if (nodo.getUsername().getUsuario().compareTo(nodoAux.getUsername().getUsuario()) < 0) {
+
+            if (nodoAux.getLeft() == null) {
+                nodoAux.setLeft(nodo);
+            } else {
+                nodoAux.setLeft(insertarAVL2(nodo, nodoAux.getLeft()));
+                if (obtenerAltura(nodoAux.getLeft()) - obtenerAltura(nodoAux.getRight()) == 2) {
+                    if (nodo.getUsername().getUsuario().compareTo(nodoAux.getLeft().getUsername().getUsuario()) == -1) {
+                        nodoPadre = rotacionIzquierda(nodoAux);
+                    } else {
+                        nodoPadre = rotacionDerecha(nodoAux);
+                    }
+                }
+            }
+        } else if (nodo.getUsername().getUsuario().compareTo(nodoAux.getUsername().getUsuario()) > 0) {
+            if (nodoAux.getRight() == null) {
+                nodoAux.setRight(nodo);
+            } else {
+                nodoAux.setRight(insertarAVL2(nodo, nodoAux.getRight()));
+                if (obtenerAltura(nodoAux.getRight()) - obtenerAltura(nodoAux.getLeft()) == 2) {
+                    if (nodo.getUsername().getUsuario().compareTo(nodoAux.getRight().getUsername().getUsuario()) == 1) {
+                        nodoPadre = rotacionDerecha(nodoAux);
+                    } else {
+                        nodoPadre = rotacionIzquierda(nodoAux);
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "El username ya existe, ingrese otro");
+            seCreo = 0;
+        }
+        if (nodoAux.getLeft() == null && nodoAux.getRight() != null) {
+            nodoAux.setHeight(nodoAux.getRight().getHeight() + 1);
+        } else if (nodoAux.getRight() == null && nodoAux.getLeft() != null) {
+            nodoAux.setHeight(nodoAux.getLeft().getHeight() + 1);
+        } else {
+            nodoAux.setHeight(Math.max(obtenerAltura(nodoAux.getLeft()), obtenerAltura(nodoAux.getRight())) + 1);
+        }
+        return nodoPadre;
+    }
+
+    public void insertar2(Usuario user) {
+        NodoAVLUsuario nuevoUser = new NodoAVLUsuario(user, null, null, 1);
+        if (raiz == null) {
+            raiz = nuevoUser;
+        } else {
+            raiz = insertarAVL2(nuevoUser, raiz);
+        }
+        size++;
+        if (seCreo == 1) {
         }
     }
 

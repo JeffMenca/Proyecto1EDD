@@ -32,6 +32,9 @@ public class Usuario {
         this.imagenes = imagenes;
     }
     
-    
+    public void insertarImagenCola(Imagen imagen) {
+        this.imagenes.insertar(imagen);
+    }
+      
 
 }

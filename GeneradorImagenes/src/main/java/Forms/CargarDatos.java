@@ -6,11 +6,18 @@
 package Forms;
 
 import Analyzers.LexicoCapas;
+import Analyzers.LexicoImagenes;
+import Analyzers.LexicoUsuarios;
 import Analyzers.ParserCapas;
+import Analyzers.ParserImagenes;
+import Analyzers.ParserUsuarios;
 import Classes.Imagen;
 import Classes.MatrizDispersa;
 import Classes.NodoABBCapas;
+import Classes.NodoAVLUsuario;
+import Classes.NodoListaDoble;
 import Classes.claseMain;
+import Objects.Usuario;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -27,6 +34,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class CargarDatos extends javax.swing.JFrame {
 
     public String textoCapas = "";
+    public String textoImagenes = "";
+    public String textoUsuarios = "";
 
     /**
      * Creates new form CargarDatos
@@ -449,10 +458,6 @@ public class CargarDatos extends javax.swing.JFrame {
         try {
             parser.parse();
             jTextArea2.setText("Se generaron las capas correctamente");
-            Imagen nuevaImagen = new Imagen("1");
-            nuevaImagen.insertarCapaCola("9");
-            nuevaImagen.insertarCapaCola("4");
-            nuevaImagen.generarImagen();
         } catch (Exception ex) {
             jTextArea2.setText("Error al generar las capas");
         }
@@ -467,19 +472,80 @@ public class CargarDatos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
+        String aux = "";
+        textoImagenes = "";
+        try {
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(".im files", "im");
+            JFileChooser file = new JFileChooser("C:\\Users\\Jeffrey\\Desktop");
+            file.setFileFilter(filter);
+            file.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            file.showOpenDialog(this);
+            File archivoSeleccionado = file.getSelectedFile();
+            if (archivoSeleccionado != null) {
+                FileReader archivos = new FileReader(archivoSeleccionado);
+                try (BufferedReader lector = new BufferedReader(archivos)) {
+                    while ((aux = lector.readLine()) != null) {
+                        textoImagenes += aux + "\n";
+                    }
+                }
+            }
+            jLabel11.setText("Selecciono el archivo: " + file.getName(file.getSelectedFile()));
+            jTextArea1.setText("Se cargo el archivo correctamente, presione generar");
+        } catch (IOException ex) {
+            jTextArea1.setText("No se logro cargar el archivo");
+        }
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        StringReader reader = new StringReader(textoImagenes);
+        LexicoImagenes lexico = new LexicoImagenes(reader);
+        ParserImagenes parser = new ParserImagenes(lexico);
+        try {
+            parser.parse();
+            jTextArea1.setText("Se generaron las imagenes correctamente");
+            
+        } catch (Exception ex) {
+            jTextArea1.setText("Error al generar las imagenes");
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
+        String aux = "";
+        textoUsuarios = "";
+        try {
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(".usr files", "usr");
+            JFileChooser file = new JFileChooser("C:\\Users\\Jeffrey\\Desktop");
+            file.setFileFilter(filter);
+            file.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            file.showOpenDialog(this);
+            File archivoSeleccionado = file.getSelectedFile();
+            if (archivoSeleccionado != null) {
+                FileReader archivos = new FileReader(archivoSeleccionado);
+                try (BufferedReader lector = new BufferedReader(archivos)) {
+                    while ((aux = lector.readLine()) != null) {
+                        textoUsuarios += aux + "\n";
+                    }
+                }
+            }
+            jLabel13.setText("Selecciono el archivo: " + file.getName(file.getSelectedFile()));
+            jTextArea3.setText("Se cargo el archivo correctamente, presione generar");
+        } catch (IOException ex) {
+            jTextArea3.setText("No se logro cargar el archivo");
+        }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
+        StringReader reader = new StringReader(textoUsuarios);
+        LexicoUsuarios lexico = new LexicoUsuarios(reader);
+        ParserUsuarios parser = new ParserUsuarios(lexico);
+        try {
+            parser.parse();
+            jTextArea3.setText("Se generaron los usuarios correctamente"); 
+            
+        } catch (Exception ex) {
+            jTextArea3.setText("Error al generar los usuarios");
+            jTextArea3.setText(ex.getMessage());
+        }
     }//GEN-LAST:event_jButton14ActionPerformed
 
     /**

@@ -48,6 +48,7 @@ public class ListaDobleImagenes {
     }
 
     public void mostrarDatos() {
+        JOptionPane.showMessageDialog(null, "Entro");
         NodoListaDoble aux = raiz;
         do {
             System.out.print("Nodo: " + aux.getImagen().getId());
@@ -72,6 +73,7 @@ public class ListaDobleImagenes {
                 }
             } while (aux != raiz);
         }
+         JOptionPane.showMessageDialog(null, "No se encontro.");
         return null;
     }
 

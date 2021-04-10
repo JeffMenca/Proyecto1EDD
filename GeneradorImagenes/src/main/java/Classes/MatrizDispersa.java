@@ -234,7 +234,7 @@ public class MatrizDispersa {
             salida = salida + "</TR>\n";
         }
         salida = salida+"</TABLE>>];\n}";
-        File imagenSalida = new File("./capaGenerada.dot");
+        File imagenSalida = new File("./imagenGenerada.dot");
         if(!imagenSalida.exists()){
             imagenSalida.createNewFile();
         } else {
@@ -242,7 +242,7 @@ public class MatrizDispersa {
             imagenSalida.createNewFile();
         }
         claseMain.saveFile(salida, imagenSalida.getAbsolutePath());
-        String command = "dot -Tpng capaGenerada.dot -o imagenGeneradaCapa.png"; 
+        String command = "dot -Tpng imagenGenerada.dot -o imagenGenerada.png"; 
         Runtime.getRuntime().exec(command);
         
         

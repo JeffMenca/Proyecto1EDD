@@ -8,8 +8,7 @@ import Classes.*;
 /* Codigo java del parser*/
 parser code {:
 
-    //Listas
-    //private ArrayList<Capa> capasList= new ArrayList<Capa>();
+    //Metodos
     MatrizDispersa capaGenerada = new MatrizDispersa();
     String idActual="EE";
 	public ParserCapas(LexicoCapas lex) {

@@ -1,0 +1,60 @@
+/* Imports */
+package Analyzers;
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import java.util.List;
+import Objects.*;
+import Classes.*;
+/* Codigo java del parser*/
+parser code {:
+
+    //Metodos
+    Imagen imagenGenerada=new Imagen("");
+	public ParserImagenes(LexicoImagenes lex) {
+		super(lex);
+	}
+	@Override
+        public void syntax_error(Symbol st) {
+            //Reporte el error
+        	Token token = (Token) st.value;
+            report_error("Error Sintactico con el  Token:"+ token.getLexeme()+" este no pertenece a la estructura - linea: "+token.getLine()+" - columna: "+token.getColumn() + "\n",null);
+        }
+    
+:};
+
+/* Terminales */
+terminal Token ID,ENTERO,LLAVEA,LLAVEB,COMA;
+/* No Terminales */
+non terminal INICIO,CREARIMAGEN,SIGUIENTE,FINOINICIO;
+
+/* Gramatica : */
+start with INICIO;
+INICIO ::= CREARIMAGEN
+        | error{:System.out.println("Error en expresion");:}
+;   
+//Creacion de imagen
+CREARIMAGEN ::= ID:id LLAVEA SIGUIENTE 
+{:imagenGenerada.setId(id.getLexeme());
+   claseMain.listaImagenes.insertarImagen(imagenGenerada);
+   claseMain.listaImagenes.ordenarLista();
+   imagenGenerada=new Imagen("");:}
+| ENTERO:id LLAVEA SIGUIENTE 
+   {:imagenGenerada.setId(id.getLexeme());
+   claseMain.listaImagenes.insertarImagen(imagenGenerada);
+   claseMain.listaImagenes.ordenarLista();
+   imagenGenerada=new Imagen("");:}
+;   
+
+//Accion siguiente
+SIGUIENTE ::= ENTERO:num LLAVEB FINOINICIO
+{:imagenGenerada.insertarCapaCola(num.getLexeme());:}
+| ENTERO:num COMA SIGUIENTE 
+{:imagenGenerada.insertarCapaCola(num.getLexeme());:}
+| error{:System.out.println("Error en expresion");:}
+;
+
+//Accion fin o reiniciar
+FINOINICIO ::= CREARIMAGEN
+| 
+;
+

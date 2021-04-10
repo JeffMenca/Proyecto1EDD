@@ -1,0 +1,66 @@
+/* Imports */
+package Analyzers;
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import java.util.List;
+import Objects.*;
+import Classes.*;
+/* Codigo java del parser*/
+parser code {:
+
+    //Metodos
+    Usuario usuarioGenerado=new Usuario("");
+	public ParserUsuarios(LexicoUsuarios lex) {
+		super(lex);
+	}
+	@Override
+        public void syntax_error(Symbol st) {
+            //Reporte el error
+        	Token token = (Token) st.value;
+            report_error("Error Sintactico con el  Token:"+ token.getLexeme()+" este no pertenece a la estructura - linea: "+token.getLine()+" - columna: "+token.getColumn() + "\n",null);
+        }
+    
+:};
+
+/* Terminales */
+terminal Token ID,ENTERO,PUNTOCOMA,COMA,DOSPUNTOS;
+/* No Terminales */
+non terminal INICIO,CREARUSUARIO,SIGUIENTE,FINOINICIO;
+
+/* Gramatica : */
+start with INICIO;
+INICIO ::= CREARUSUARIO
+        | error{:System.out.println("Error en expresion");:}
+;   
+//Creacion de imagen
+CREARUSUARIO ::= ID:id DOSPUNTOS SIGUIENTE 
+{:
+usuarioGenerado.setUsuario(id.getLexeme());
+   claseMain.arbolAVL.insertar2(usuarioGenerado);
+   usuarioGenerado=new Usuario("");:}
+| ENTERO:id DOSPUNTOS SIGUIENTE 
+   {:
+   usuarioGenerado.setUsuario(id.getLexeme());
+   claseMain.arbolAVL.insertar2(usuarioGenerado);
+   usuarioGenerado=new Usuario("");:}
+;   
+
+//Accion siguiente
+SIGUIENTE ::= ENTERO:num PUNTOCOMA FINOINICIO
+{:
+NodoListaDoble nodo=claseMain.listaImagenes.buscarImagen(num.getLexeme());
+   Imagen encontrada=nodo.getImagen();
+   usuarioGenerado.insertarImagenCola(encontrada);:}
+| ENTERO:num COMA SIGUIENTE 
+{: 
+NodoListaDoble nodo=claseMain.listaImagenes.buscarImagen(num.getLexeme());
+   Imagen encontrada=nodo.getImagen();
+   usuarioGenerado.insertarImagenCola(encontrada);:}
+| error{:System.out.println("Error en expresion");:}
+;
+
+//Accion fin o reiniciar
+FINOINICIO ::= CREARUSUARIO
+| 
+;
+

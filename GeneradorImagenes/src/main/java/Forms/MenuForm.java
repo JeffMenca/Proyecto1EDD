@@ -60,6 +60,11 @@ public class MenuForm extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Generar imagen");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(163, 32, 159));
         jButton3.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
@@ -137,6 +142,12 @@ public class MenuForm extends javax.swing.JFrame {
         cargarDatosForm.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        GenerarImagen generarImagenForm = new GenerarImagen();
+        generarImagenForm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

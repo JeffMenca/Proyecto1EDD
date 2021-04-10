@@ -122,8 +122,7 @@ public class ParserCapas extends java_cup.runtime.lr_parser {
 
 
 
-    //Listas
-    //private ArrayList<Capa> capasList= new ArrayList<Capa>();
+    //Metodos
     MatrizDispersa capaGenerada = new MatrizDispersa();
     String idActual="EE";
 	public ParserCapas(LexicoCapas lex) {

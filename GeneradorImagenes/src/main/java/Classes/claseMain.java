@@ -20,28 +20,28 @@ public class claseMain {
         System.out.println("Hola mundo");
         MenuForm menu = new MenuForm();
         //Creacion de usuarios
-        Usuario user1 = new Usuario("a");
-        Usuario user3 = new Usuario("c");
+        //Usuario user1 = new Usuario("a");
+        //Usuario user3 = new Usuario("c");
         //Creacion de capas
-        MatrizDispersa matrizDispersa = new MatrizDispersa();
-        MatrizDispersa matrizDispersa2 = new MatrizDispersa();
-        //matrizDispersa.insertar(2, 2, "#000000");
-        //matrizDispersa.insertar(3, 3, "#000000");
-        //matrizDispersa2.insertar(4, 4, "#000000");
-        //matrizDispersa2.insertar(4, 7, "#000000");
-        //arbolABB.insertar("1", matrizDispersa);
-        //arbolABB.insertar("2", matrizDispersa2);
+//        MatrizDispersa matrizDispersa = new MatrizDispersa();
+//        MatrizDispersa matrizDispersa2 = new MatrizDispersa();
+//        matrizDispersa.insertar(2, 2, "#000000");
+//        matrizDispersa.insertar(3, 3, "#000000");
+//        matrizDispersa2.insertar(4, 4, "#000000");
+//        matrizDispersa2.insertar(4, 7, "#000000");
+//        arbolABB.insertar("1", matrizDispersa);
+//        arbolABB.insertar("2", matrizDispersa2);
         //Creacion de imagen
-        Imagen nuevaImagen = new Imagen("111");
-        nuevaImagen.insertarCapaCola("1");
-        nuevaImagen.insertarCapaCola("2");
-        try {
-            nuevaImagen.generarImagen();
-        } catch (Exception e) {
-        }
+        //Imagen nuevaImagen = new Imagen("111");
+        //nuevaImagen.insertarCapaCola("1");
+        //nuevaImagen.insertarCapaCola("2");
+//        try {
+//            nuevaImagen.generarImagen();
+//        } catch (Exception e) {
+//        }
         //Lista doble
-        listaImagenes.insertarImagen(nuevaImagen);
-        listaImagenes.ordenarLista();
+        //listaImagenes.insertarImagen(nuevaImagen);
+        //listaImagenes.ordenarLista();
         //listaImagenes.mostrarDatos();
 
     }

@@ -1,5 +1,6 @@
 package Classes;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -9,6 +10,7 @@ import javax.swing.JOptionPane;
 public class ColaImagenes {
 
     private NodoColaImagenes raiz, fondo;
+    private int size = 0;
 
     public ColaImagenes() {
         raiz = null;
@@ -23,7 +25,7 @@ public class ColaImagenes {
         }
     }
 
-    void insertar(Imagen imagen) {
+    public void insertar(Imagen imagen) {
 
         if (imagen != null) {
             NodoColaImagenes nuevo = new NodoColaImagenes(imagen, raiz);
@@ -34,12 +36,13 @@ public class ColaImagenes {
                 fondo.setSiguiente(nuevo);
                 fondo = nuevo;
             }
+            size++;
         } else {
             JOptionPane.showMessageDialog(null, "No existe ninguna imagen con ese id");
         }
     }
 
-    Imagen extraer() {
+    public Imagen extraer() {
         if (!vacia()) {
             Imagen informacion = raiz.getImagen();
             if (raiz == fondo) {
@@ -48,6 +51,7 @@ public class ColaImagenes {
             } else {
                 raiz = raiz.getSiguiente();
             }
+
             return informacion;
         } else {
             return null;
@@ -61,6 +65,44 @@ public class ColaImagenes {
             imagen = imagen.getSiguiente();
         }
         System.out.println();
+    }
+
+    public ArrayList<String> obtenerImagenes() {
+        ArrayList<String> lista = new ArrayList<>();
+        NodoColaImagenes imagen = raiz;
+        while (imagen != null) {
+            lista.add(imagen.getImagen().getId());
+            imagen = imagen.getSiguiente();
+            if (imagen == fondo) {
+                lista.add(imagen.getImagen().getId());
+                break;
+            }
+        }
+        return lista;
+    }
+
+    public void eliminar(String id) {
+        NodoColaImagenes imagen = raiz;
+        while (imagen != null) {
+            if (imagen.getSiguiente().getImagen().getId().equals(id)) {
+                imagen.setSiguiente(imagen.getSiguiente().getSiguiente());
+                size--;
+            } else {
+                imagen = imagen.getSiguiente();
+                if (imagen == fondo) {
+                    break;
+                }
+            }
+
+        }
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
 }
