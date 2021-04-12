@@ -53,7 +53,7 @@ public class Imagen {
                 for (int x = 1; x <= columnas; x++) {
                     NodoMatrizDispersa nodo = capa.graficarEnMatriz(x, y);
                     if (nodo != null) {
-                        imagenFinal.insertar(nodo.getX(), nodo.getY(), nodo.getColor());
+                        imagenFinal.insertar(nodo.getY(), nodo.getX(), nodo.getColor());
                     }
                 }
             }
