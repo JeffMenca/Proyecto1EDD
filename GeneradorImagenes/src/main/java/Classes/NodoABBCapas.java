@@ -17,6 +17,7 @@ public class NodoABBCapas {
         this.left = null;
         this.right = null;
         this.id=id;
+        this.capa.setId(id);
     }
     
 

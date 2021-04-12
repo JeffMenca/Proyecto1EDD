@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 public class ColaCapas {
 
     private NodoColaCapas raiz, fondo;
+    private int size = 0;
 
     ColaCapas() {
         raiz = null;
@@ -36,6 +37,7 @@ public class ColaCapas {
                 fondo.setSiguiente(nuevo);
                 fondo = nuevo;
             }
+            size++;
         } else {
             JOptionPane.showMessageDialog(null, "No existe ninguna capa con ese id");
         }
@@ -51,6 +53,7 @@ public class ColaCapas {
             } else {
                 raiz = raiz.getSiguiente();
             }
+            size--;
             return informacion;
         } else {
             return null;
@@ -70,5 +73,23 @@ public class ColaCapas {
         }
         System.out.println();
     }
+
+    public NodoColaCapas getRaiz() {
+        return raiz;
+    }
+
+    public void setRaiz(NodoColaCapas raiz) {
+        this.raiz = raiz;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
+    
 
 }

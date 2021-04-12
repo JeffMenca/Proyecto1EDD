@@ -1,6 +1,9 @@
 package Classes;
 
 import Objects.Usuario;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -10,6 +13,8 @@ import javax.swing.JOptionPane;
 public class ArbolABBCapas {
 
     private NodoABBCapas raiz;
+    private ArrayList<NodoABBCapas> nodosLimitados = new ArrayList<>();
+    private String graficaArbolCapas = "";
     public int size;
 
     public ArbolABBCapas() {
@@ -94,7 +99,7 @@ public class ArbolABBCapas {
     }
 
     private NodoABBCapas insertarABB(NodoABBCapas nodo, NodoABBCapas nodoAux) {
-        
+
         NodoABBCapas nodoPadre = nodoAux;
         if (nodo.getId().compareTo(nodoAux.getId()) < 0) {
 
@@ -130,15 +135,37 @@ public class ArbolABBCapas {
             return;
         }
         inOrden(nodo.getLeft());
-        System.out.println("{ Llave: " + nodo.getId() + " }\n");
+        System.out.println("{ ID: " + nodo.getId() + " }\n");
         inOrden(nodo.getRight());
+    }
+
+    private void obtenerGrafica(NodoABBCapas nodo) {
+        if (null == nodo) {
+            return;
+        }
+        obtenerGrafica(nodo.getLeft());
+        try {
+            graficaArbolCapas += "capa" + nodo.getId() + "->" + "capa" + nodo.getLeft().getId() + ";\n";
+        } catch (Exception e) {
+        }
+        try {
+            graficaArbolCapas += "capa" + nodo.getId() + "->" + "capa" + nodo.getRight().getId() + ";\n";
+        } catch (Exception e) {
+        }
+        obtenerGrafica(nodo.getRight());
+    }
+
+    public String obtenerGrafica() {
+        graficaArbolCapas = "";
+        obtenerGrafica(this.raiz);
+        return graficaArbolCapas;
     }
 
     private void preOrden(NodoABBCapas nodo) {
         if (null == nodo) {
             return;
         }
-        System.out.println("{ Llave: " + nodo.getId() + " }\n");
+        System.out.println("{ ID: " + nodo.getId() + " }\n");
         preOrden(nodo.getLeft());
         preOrden(nodo.getRight());
     }
@@ -149,7 +176,7 @@ public class ArbolABBCapas {
         }
         postOrden(nodo.getLeft());
         postOrden(nodo.getRight());
-        System.out.println("{ Llave: " + nodo.getId() + " }\n");
+        System.out.println("{ ID: " + nodo.getId() + " }\n");
     }
 
     public void inOrden() {
@@ -163,4 +190,100 @@ public class ArbolABBCapas {
     public void postOrden() {
         postOrden(this.raiz);
     }
+
+    //Recorrido limitado
+    private void inOrdenLimitado(NodoABBCapas nodo, int limitante) {
+        if (null == nodo) {
+            return;
+        }
+        
+        inOrdenLimitado(nodo.getLeft(), limitante);
+        if (nodosLimitados.size()==limitante) {
+            return;
+        }
+        nodosLimitados.add(nodo);
+        inOrdenLimitado(nodo.getRight(), limitante);
+    }
+
+    private void preOrdenLimitado(NodoABBCapas nodo, int limitante) {
+
+        if (null == nodo) {
+            return;
+        }
+        if (nodosLimitados.size()==limitante) {
+            return;
+        }
+        nodosLimitados.add(nodo);
+        preOrdenLimitado(nodo.getLeft(), limitante);
+        preOrdenLimitado(nodo.getRight(), limitante);
+    }
+
+    private void postOrdenLimitado(NodoABBCapas nodo, int limitante) {
+        if (null == nodo) {
+            return;
+        }
+        if (limitante <= 0) {
+            return;
+        } else {
+            limitante--;
+        }
+        postOrdenLimitado(nodo.getLeft(), limitante);
+        postOrdenLimitado(nodo.getRight(), limitante);
+        if (nodosLimitados.size()==limitante) {
+            return;
+        }
+        nodosLimitados.add(nodo);
+    }
+
+    public ArrayList<NodoABBCapas> inOrdenLimitado(int limitante) {
+        nodosLimitados = new ArrayList<>();
+        inOrdenLimitado(this.raiz, limitante);
+        return nodosLimitados;
+    }
+
+    public ArrayList<NodoABBCapas> preOrdenLimitado(int limitante) {
+        nodosLimitados = new ArrayList<>();
+        preOrdenLimitado(this.raiz, limitante);
+        return nodosLimitados;
+    }
+
+    public ArrayList<NodoABBCapas> postOrdenLimitado(int limitante) {
+        nodosLimitados = new ArrayList<>();
+        postOrdenLimitado(this.raiz, limitante);
+        return nodosLimitados;
+    }
+
+    public void graficarArbolCapas() throws IOException {
+        String capas = obtenerGrafica();
+        String salida = "digraph G {\n";
+        salida += "subgraph cluster_0 {\n";
+        salida += "style=filled;\n";
+        salida += "color=lightgrey;\n";
+        salida += "node [style=filled,color=white];\n";
+        salida += capas;
+        salida += "label = \" Arbol de Capas \";\n";
+        salida += "}\n";
+        salida += "}\n";
+
+        File imagenSalida = new File("./arbolCapasGenerado.dot");
+        if (!imagenSalida.exists()) {
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        claseMain.guardarImagen(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng arbolCapasGenerado.dot -o arbolCapasGenerado.png";
+        Runtime.getRuntime().exec(command);
+    }
+
+    public NodoABBCapas getRaiz() {
+        return raiz;
+    }
+
+    public void setRaiz(NodoABBCapas raiz) {
+        this.raiz = raiz;
+    }
+    
+    
 }

@@ -8,18 +8,17 @@ import java.io.IOException;
  *
  * @author Jeffrey
  */
-
 public class MatrizDispersa {
 
-  
     public int totalFilas;
     public int totalColumnas;
+    private String id;
     private NodoMatrizDispersa raiz;
-    
+
     public MatrizDispersa() {
-        raiz = new NodoMatrizDispersa(0,0,null);
+        raiz = new NodoMatrizDispersa(0, 0, null);
     }
-    
+
     boolean vacia() {
         if (raiz == null) {
             return true;
@@ -27,23 +26,23 @@ public class MatrizDispersa {
             return false;
         }
     }
-    
+
     public NodoMatrizDispersa insertarFila(int fila) {
         NodoMatrizDispersa cabezaNodoNodo = raiz.getFilaSiguiente();
-        NodoMatrizDispersa nuevoNodoNodo = new NodoMatrizDispersa(0,fila,null);
-        if(cabezaNodoNodo == null) {
+        NodoMatrizDispersa nuevoNodoNodo = new NodoMatrizDispersa(0, fila, null);
+        if (cabezaNodoNodo == null) {
             raiz.setFilaSiguiente(nuevoNodoNodo);
             nuevoNodoNodo.setColumnaAnterior(raiz);
         } else {
-            if(cabezaNodoNodo.getY() > fila) {
+            if (cabezaNodoNodo.getY() > fila) {
                 nuevoNodoNodo.setFilaSiguiente(cabezaNodoNodo);
                 cabezaNodoNodo.setFilaAnterior(nuevoNodoNodo);
                 raiz.setFilaSiguiente(nuevoNodoNodo);
                 nuevoNodoNodo.setFilaAnterior(raiz);
             } else {
                 NodoMatrizDispersa aux = cabezaNodoNodo;
-                while(aux.getFilaSiguiente() != null) {
-                    if(aux.getFilaSiguiente().getY() < fila) {
+                while (aux.getFilaSiguiente() != null) {
+                    if (aux.getFilaSiguiente().getY() < fila) {
                         nuevoNodoNodo.setFilaSiguiente(aux.getFilaSiguiente());
                         aux.getFilaSiguiente().setFilaAnterior(nuevoNodoNodo);
                         nuevoNodoNodo.setFilaAnterior(aux);
@@ -57,29 +56,29 @@ public class MatrizDispersa {
                 nuevoNodoNodo.setFilaAnterior(aux);
             }
         }
-        
-        if(fila > totalFilas) {
+
+        if (fila > totalFilas) {
             totalFilas = fila;
         }
         return nuevoNodoNodo;
     }
-    
+
     public NodoMatrizDispersa insertarColumna(int columna) {
         NodoMatrizDispersa cabezaNodo = raiz.getColumnaSiguiente();
-        NodoMatrizDispersa nuevoNodo = new NodoMatrizDispersa(columna,0,null);
-        if(cabezaNodo == null) {
+        NodoMatrizDispersa nuevoNodo = new NodoMatrizDispersa(columna, 0, null);
+        if (cabezaNodo == null) {
             raiz.setColumnaSiguiente(nuevoNodo);
-            nuevoNodo.setColumnaAnterior(raiz); 
+            nuevoNodo.setColumnaAnterior(raiz);
         } else {
-            if(cabezaNodo.getX() > columna) {
+            if (cabezaNodo.getX() > columna) {
                 nuevoNodo.setColumnaSiguiente(cabezaNodo);
                 cabezaNodo.setColumnaAnterior(nuevoNodo);
                 raiz.setColumnaSiguiente(nuevoNodo);
                 nuevoNodo.setColumnaAnterior(raiz);
             } else {
                 NodoMatrizDispersa aux = cabezaNodo;
-                while(aux.getColumnaSiguiente() != null) {
-                    if(aux.getColumnaSiguiente().getX() < columna) {
+                while (aux.getColumnaSiguiente() != null) {
+                    if (aux.getColumnaSiguiente().getX() < columna) {
                         nuevoNodo.setColumnaSiguiente(aux.getColumnaSiguiente());
                         aux.getColumnaSiguiente().setColumnaAnterior(nuevoNodo);
                         nuevoNodo.setColumnaAnterior(aux);
@@ -93,45 +92,46 @@ public class MatrizDispersa {
                 nuevoNodo.setColumnaAnterior(aux);
             }
         }
-        if(columna > totalColumnas) {
+        if (columna > totalColumnas) {
             totalColumnas = columna;
         }
         return nuevoNodo;
     }
-    
-    
-    public NodoMatrizDispersa obtenerFila(int fila,boolean auxiliar) {
+
+    public NodoMatrizDispersa obtenerFila(int fila, boolean auxiliar) {
         NodoMatrizDispersa aux = raiz.getFilaSiguiente();
-        while(aux != null) {
-            if(aux.getY() == fila){
+        while (aux != null) {
+            if (aux.getY() == fila) {
                 return aux;
             }
             aux = aux.getFilaSiguiente();
         }
-        if(auxiliar)
+        if (auxiliar) {
             return insertarFila(fila);
+        }
         return null;
     }
-    
-    public NodoMatrizDispersa obtenerColumna(int columna,boolean auxiliar) {
+
+    public NodoMatrizDispersa obtenerColumna(int columna, boolean auxiliar) {
         NodoMatrizDispersa aux = raiz.getColumnaSiguiente();
-        while(aux != null) {
-            if(aux.getX() == columna){
+        while (aux != null) {
+            if (aux.getX() == columna) {
                 return aux;
             }
             aux = aux.getColumnaSiguiente();
         }
-        if(auxiliar)
+        if (auxiliar) {
             return insertarColumna(columna);
+        }
         return null;
     }
-    
-    public NodoMatrizDispersa graficarEnMatriz(int columna,int fila) {
-        NodoMatrizDispersa nodoColumna = obtenerColumna(columna,false);
-        if(nodoColumna != null){
+
+    public NodoMatrizDispersa graficarEnMatriz(int columna, int fila) {
+        NodoMatrizDispersa nodoColumna = obtenerColumna(columna, false);
+        if (nodoColumna != null) {
             NodoMatrizDispersa aux = nodoColumna;
-            while(aux != null) {
-                if(aux.getY() == fila) {
+            while (aux != null) {
+                if (aux.getY() == fila) {
                     return aux;
                 }
                 aux = aux.getFilaSiguiente();
@@ -141,28 +141,30 @@ public class MatrizDispersa {
             return null;
         }
     }
-    
-    public void insertar(int columna, int fila,String color) {
-        NodoMatrizDispersa nuevoNodo = new NodoMatrizDispersa(columna,fila,color);
-        if(color.equals("#ffffff") || color.equals("#FFFFFF") || color.equals("#fFfFfF") || color.equals("#FfFfFf")){}else{
-        this.insertar(nuevoNodo);}
+
+    public void insertar(int columna, int fila, String color) {
+        NodoMatrizDispersa nuevoNodo = new NodoMatrizDispersa(columna, fila, color);
+        if (color.equals("#ffffff") || color.equals("#FFFFFF") || color.equals("#fFfFfF") || color.equals("#FfFfFf")) {
+        } else {
+            this.insertar(nuevoNodo);
+        }
     }
-    
+
     private void insertar(NodoMatrizDispersa nodo) {
         NodoMatrizDispersa nuevoNodo = nodo;
         int fila = nodo.getY();
         int columna = nodo.getX();
         String color = nodo.getColor();
-        NodoMatrizDispersa raizFila = obtenerFila(fila,true);
-        NodoMatrizDispersa raizColumna = obtenerColumna(columna,true);
-    
+        NodoMatrizDispersa raizFila = obtenerFila(fila, true);
+        NodoMatrizDispersa raizColumna = obtenerColumna(columna, true);
+
         //Inserta en columna 
         NodoMatrizDispersa cabezaNodo = raizColumna.getFilaSiguiente();
-        if(cabezaNodo == null) {
+        if (cabezaNodo == null) {
             raizColumna.setFilaSiguiente(nuevoNodo);
             nuevoNodo.setFilaAnterior(raizColumna);
         } else {
-            if(cabezaNodo.getY() > fila) {
+            if (cabezaNodo.getY() > fila) {
                 nuevoNodo.setFilaSiguiente(cabezaNodo);
                 cabezaNodo.setFilaAnterior(nuevoNodo);
                 raizColumna.setFilaSiguiente(nuevoNodo);
@@ -170,8 +172,8 @@ public class MatrizDispersa {
             } else {
                 NodoMatrizDispersa aux = cabezaNodo;
                 boolean insertado = false;
-                while(aux.getFilaSiguiente() != null) {
-                    if(aux.getFilaSiguiente().getY() < fila) {
+                while (aux.getFilaSiguiente() != null) {
+                    if (aux.getFilaSiguiente().getY() < fila) {
                         nuevoNodo.setFilaSiguiente(aux.getFilaSiguiente());
                         aux.getFilaSiguiente().setFilaAnterior(nuevoNodo);
                         nuevoNodo.setFilaAnterior(aux);
@@ -189,11 +191,11 @@ public class MatrizDispersa {
         }
         //Inserta el fila
         cabezaNodo = raizFila.getColumnaSiguiente();
-        if(cabezaNodo == null) {
+        if (cabezaNodo == null) {
             raizFila.setColumnaSiguiente(nuevoNodo);
             nuevoNodo.setColumnaAnterior(raizFila);
         } else {
-            if(cabezaNodo.getX() > columna) {
+            if (cabezaNodo.getX() > columna) {
                 nuevoNodo.setColumnaSiguiente(cabezaNodo);
                 cabezaNodo.setColumnaAnterior(nuevoNodo);
                 raizFila.setColumnaSiguiente(nuevoNodo);
@@ -201,8 +203,8 @@ public class MatrizDispersa {
             } else {
                 NodoMatrizDispersa aux = cabezaNodo;
                 boolean insertado = false;
-                while(aux.getColumnaSiguiente() != null) {
-                    if(aux.getColumnaSiguiente().getX() < columna) {
+                while (aux.getColumnaSiguiente() != null) {
+                    if (aux.getColumnaSiguiente().getX() < columna) {
                         nuevoNodo.setColumnaSiguiente(aux.getColumnaSiguiente());
                         aux.getColumnaSiguiente().setColumnaAnterior(nuevoNodo);
                         nuevoNodo.setColumnaAnterior(aux);
@@ -212,40 +214,77 @@ public class MatrizDispersa {
                     }
                     aux = aux.getColumnaSiguiente();
                 }
-                if(!insertado) {
+                if (!insertado) {
                     aux.setColumnaSiguiente(nuevoNodo);
                     nuevoNodo.setColumnaAnterior(aux);
                 }
             }
         }
     }
-    
-    public void graficarMatriz() throws IOException{
+
+    public void graficarMatriz() throws IOException {
         String salida = "digraph dibujo{\nnode [shape=plaintext]\na [label=<<TABLE BORDER=\"1\" CELLBORDER=\"1\" CELLSPACING=\"0\">\n";
-        for(int y = 1;y<=this.totalFilas;y++) {
+        for (int y = 1; y <= this.totalFilas; y++) {
             salida = salida + "<TR>  ";
-            for(int x = 1;x<= this.totalColumnas;x++) {
-                if(graficarEnMatriz(x,y) != null) {
-                    salida = salida + "<TD BGCOLOR=\""+graficarEnMatriz(x,y).getColor()+"\"></TD>  ";
+            for (int x = 1; x <= this.totalColumnas; x++) {
+                if (graficarEnMatriz(x, y) != null) {
+                    salida = salida + "<TD BGCOLOR=\"" + graficarEnMatriz(x, y).getColor() + "\"></TD>  ";
                 } else {
                     salida = salida + "<TD BGCOLOR=\"#FFFFFF\"></TD>  ";
                 }
             }
             salida = salida + "</TR>\n";
         }
-        salida = salida+"</TABLE>>];\n}";
+        salida = salida + "</TABLE>>];\n}";
         File imagenSalida = new File("./imagenGenerada.dot");
-        if(!imagenSalida.exists()){
+        if (!imagenSalida.exists()) {
             imagenSalida.createNewFile();
         } else {
             imagenSalida.delete();
             imagenSalida.createNewFile();
         }
-        claseMain.saveFile(salida, imagenSalida.getAbsolutePath());
-        String command = "dot -Tpng imagenGenerada.dot -o imagenGenerada.png"; 
+        claseMain.guardarImagen(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng imagenGenerada.dot -o imagenGenerada.png";
         Runtime.getRuntime().exec(command);
-        
-        
     }
-    
+
+    public void generarGrafica() throws IOException {
+        String salida = "digraph dibujo{\nnode [shape=plaintext]\na [label=<<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"1\">\n";
+        for (int y = 0; y <= this.totalFilas; y++) {
+            salida = salida + "<TR>  ";
+            salida = salida + "<TD BGCOLOR=\"#FFFFFF\">" + y + "       " + "</TD>  ";
+            for (int x = 1; x <= this.totalColumnas; x++) {
+                if (y == 0) {
+                    salida += "<TD BGCOLOR=\"#FFFFFF\">" + x + "</TD>  ";
+                } else {
+                    if (graficarEnMatriz(x, y) != null) {
+                        salida = salida + "<TD>" + graficarEnMatriz(x, y).getColor() + "</TD>  ";
+                    } else {
+                        salida = salida + "<TD>" + "          " + "</TD>  ";
+                    }
+                }
+            }
+            salida = salida + "</TR>\n";
+        }
+        salida = salida + "</TABLE>>];\n}";
+        File imagenSalida = new File("./capaGeneradaGrafica.dot");
+        if (!imagenSalida.exists()) {
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        claseMain.guardarImagen(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng capaGeneradaGrafica.dot -o capaGeneradaGrafica.png";
+        Runtime.getRuntime().exec(command);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

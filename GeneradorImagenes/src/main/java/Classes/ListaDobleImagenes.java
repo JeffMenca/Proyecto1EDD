@@ -1,5 +1,7 @@
 package Classes;
 
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,7 +32,7 @@ public class ListaDobleImagenes {
             fondo = nuevoNodo;
             raiz.setAnterior(fondo);
         } else {
-            System.out.println("Ya existe una imagen con ese id");
+            JOptionPane.showMessageDialog(null, "Ya existe una imagen con ese id");
         }
     }
 
@@ -73,18 +75,26 @@ public class ListaDobleImagenes {
                 }
             } while (aux != raiz);
         }
-         JOptionPane.showMessageDialog(null, "No se encontro.");
+        JOptionPane.showMessageDialog(null, "No se encontro una imagen con ese id");
         return null;
     }
 
     public void eliminarImagen(String id) {
         if (raiz != null) {
+
+            if (raiz == fondo) {
+                raiz = fondo = null;
+            } else if (id == raiz.getImagen().getId()) {
+                raiz = raiz.getSiguiente();
+            } else if (id == fondo.getImagen().getId()) {
+                fondo = fondo.getAnterior();
+            }
             NodoListaDoble nodo = buscarImagen(id);
             NodoListaDoble nodoAnterior = nodo.getAnterior();
             NodoListaDoble nodoSiguiente = nodo.getSiguiente();
             nodoAnterior.setSiguiente(nodoSiguiente);
             nodoSiguiente.setAnterior(nodoAnterior);
-            JOptionPane.showMessageDialog(null, "Se ha eliminado imagen correctamente.");
+            JOptionPane.showMessageDialog(null, "Se ha eliminado la imagen correctamente");
         }
     }
 
@@ -119,4 +129,52 @@ public class ListaDobleImagenes {
         } while (aux != raiz);
         return size;
     }
+
+    public void graficarListaImagenes() throws IOException {
+        String salida = "digraph G{\n";
+        salida += "style=filled;\n";
+        salida += "label = \" Lista de imagenes \";\n";
+        salida += "subgraph Lista { node [shape = square,height=.1]; label=\"Lista doble circular\"; \n";
+        NodoListaDoble aux = raiz;
+        for (int i = 0; i < getSize(); i++) {
+
+            salida += aux.getImagen().getId() + "->" + aux.getSiguiente().getImagen().getId() + " [constraint=false]; \n";
+            salida += aux.getSiguiente().getImagen().getId() + "->" + aux.getSiguiente().getAnterior().getImagen().getId() + "[constraint=false]; \n";
+            aux = aux.getSiguiente();
+        }
+        salida = salida + "}";
+        aux = raiz;
+        for (int i = 0; i < getSize(); i++) {
+            Imagen imagen = aux.getImagen();
+            ColaCapas cola = imagen.getCapas();
+            salida += "subgraph cluster_" + i + "{node [shape = square,height=.1]; rankdir=LR; label=\"Cola" + i + "\";  \n";
+            NodoColaCapas nodoCola = cola.getRaiz();
+            for (int j = 0; j < cola.getSize(); j++) {
+                salida += "Cola" + i + "_" + "Capa" + nodoCola.getCapa().getId();
+                if (nodoCola.getSiguiente() != null) {
+                    salida += "->" + "Cola" + i + "_" + "Capa" + nodoCola.getSiguiente().getCapa().getId() + "; \n";
+                    nodoCola = nodoCola.getSiguiente();
+                }
+                if (j + 2 == cola.getSize()) {
+                    break;
+                }
+            }
+            salida += " } \n";
+            nodoCola = cola.getRaiz();
+            salida += aux.getImagen().getId() + "->" + "Cola" + i + "_" + "Capa" + nodoCola.getCapa().getId() + "[lhead = cluster_" + i + "]; \n";
+            aux = aux.getSiguiente();
+        }
+        salida += "}";
+        File imagenSalida = new File("./listaImagenesGenerada.dot");
+        if (!imagenSalida.exists()) {
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        claseMain.guardarImagen(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng listaImagenesGenerada.dot -o listaImagenesGenerada.png";
+        Runtime.getRuntime().exec(command);
+    }
+
 }

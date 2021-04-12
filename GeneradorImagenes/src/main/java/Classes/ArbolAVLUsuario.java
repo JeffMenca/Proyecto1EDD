@@ -1,6 +1,8 @@
 package Classes;
 
 import Objects.Usuario;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,6 +13,7 @@ public class ArbolAVLUsuario {
 
     private NodoAVLUsuario raiz;
     public int size, seCreo = 1;
+    private String graficaArbolUsuarios = "";
 
     public ArbolAVLUsuario() {
         this.raiz = null;
@@ -99,7 +102,7 @@ public class ArbolAVLUsuario {
     }
 
     public NodoAVLUsuario buscar(String username) {
-        Usuario user=new Usuario(username);
+        Usuario user = new Usuario(username);
         return buscar(user, this.raiz);
     }
 
@@ -244,7 +247,7 @@ public class ArbolAVLUsuario {
             JOptionPane.showMessageDialog(null, "El usuario se creo exitosamente");
         }
     }
-    
+
     private NodoAVLUsuario insertarAVL2(NodoAVLUsuario nodo, NodoAVLUsuario nodoAux) {
         NodoAVLUsuario nodoPadre = nodoAux;
         seCreo = 1;
@@ -307,7 +310,7 @@ public class ArbolAVLUsuario {
             return;
         }
         inOrden(nodo.getLeft());
-        System.out.println("{ Llave: " + nodo.getUsername().getUsuario() + " }\n");
+        System.out.println("{ ID: " + nodo.getUsername().getUsuario() + " }\n");
         inOrden(nodo.getRight());
     }
 
@@ -315,7 +318,7 @@ public class ArbolAVLUsuario {
         if (null == nodo) {
             return;
         }
-        System.out.println("{ Llave: " + nodo.getUsername().getUsuario() + " }\n");
+        System.out.println("{ ID: " + nodo.getUsername().getUsuario() + " }\n");
         preOrden(nodo.getLeft());
         preOrden(nodo.getRight());
     }
@@ -326,7 +329,7 @@ public class ArbolAVLUsuario {
         }
         postOrden(nodo.getLeft());
         postOrden(nodo.getRight());
-        System.out.println("{ Llave: " + nodo.getUsername().getUsuario() + " }\n");
+        System.out.println("{ ID: " + nodo.getUsername().getUsuario() + " }\n");
     }
 
     public void inOrden() {
@@ -339,5 +342,51 @@ public class ArbolAVLUsuario {
 
     public void postOrden() {
         postOrden(this.raiz);
+    }
+
+    private void obtenerGrafica(NodoAVLUsuario nodo) {
+        if (null == nodo) {
+            return;
+        }
+        obtenerGrafica(nodo.getLeft());
+        try {
+            graficaArbolUsuarios += nodo.getUsername().getUsuario() + "->" + nodo.getLeft().getUsername().getUsuario() + ";\n";
+        } catch (Exception e) {
+        }
+        try {
+            graficaArbolUsuarios += nodo.getUsername().getUsuario() + "->" + nodo.getRight().getUsername().getUsuario() + ";\n";
+        } catch (Exception e) {
+        }
+        obtenerGrafica(nodo.getRight());
+    }
+
+    public String obtenerGrafica() {
+        graficaArbolUsuarios = "";
+        obtenerGrafica(this.raiz);
+        return graficaArbolUsuarios;
+    }
+
+    public void graficarArbolUsuarios() throws IOException {
+        String usuarios = obtenerGrafica();
+        String salida = "digraph G {\n";
+        salida += "subgraph cluster_0 {\n";
+        salida += "style=filled;\n";
+        salida += "color=lightgrey;\n";
+        salida += "node [style=filled,color=white];\n";
+        salida += usuarios;
+        salida += "label = \" Arbol de Usuarios \";\n";
+        salida += "}\n";
+        salida += "}\n";
+
+        File imagenSalida = new File("./arbolUsuariosGenerado.dot");
+        if (!imagenSalida.exists()) {
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        claseMain.guardarImagen(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng arbolUsuariosGenerado.dot -o arbolUsuariosGenerado.png";
+        Runtime.getRuntime().exec(command);
     }
 }

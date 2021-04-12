@@ -162,6 +162,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Graficar estado memoria"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
